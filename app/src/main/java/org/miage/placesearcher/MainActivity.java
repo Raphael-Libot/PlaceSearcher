@@ -32,7 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private void createList(){
         List<Place> listItems = new ArrayList<Place>();
         for(int i = 0; i < 50; i++){
-            listItems.add(new Place( "street " + i, "zip " + i, "city " + i ));
+            if(String.valueOf(i).contains("1")) {
+                listItems.add(new Place("street " + i, "zip " + i, "city " + i, R.drawable.route));
+            } else {
+                listItems.add(new Place("street " + i, "zip " + i, "city " + i, R.drawable.home));
+            }
         }
         ArrayAdapter adapter = new PlaceAdapter(this, listItems);
         itemsView.setAdapter(adapter);

@@ -11,6 +11,7 @@ public class Place {
     private String street;
     private String zipCode;
     private String city;
+    private int image;
 
     public Place(double latitude, double longitude, String street, String zipCode, String city) {
         this.latitude = latitude;
@@ -20,10 +21,19 @@ public class Place {
         this.city = city;
     }
 
-    public Place(String street, String zipCode, String city) {
+    public Place(String street, String zipCode, String city, int image) {
         this.street = street;
         this.zipCode = zipCode;
         this.city = city;
+        this.image = image;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public double getLatitude() {

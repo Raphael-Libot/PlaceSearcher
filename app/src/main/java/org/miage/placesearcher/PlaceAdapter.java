@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,6 +18,9 @@ import butterknife.ButterKnife;
  */
 
 public class PlaceAdapter extends ArrayAdapter<Place> {
+
+    @BindView(R.id.imageView)
+    ImageView imageView;
 
     @BindView(R.id.textViewZipCode)
     TextView zipCode;
@@ -42,6 +46,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
         zipCode.setText(getItem(position).getZipCode());
         street.setText(getItem(position).getStreet());
         city.setText(getItem(position).getCity());
+        imageView.setImageResource(getItem(position).getImage());
         return actualView;
     }
 }
