@@ -49,4 +49,5 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
         imageView.setImageResource(getItem(position).getImage());
         return actualView;
     }
+
 }
