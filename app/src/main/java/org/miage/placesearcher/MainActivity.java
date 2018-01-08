@@ -8,6 +8,9 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createList(){
-        String[] listItems = new String[]{"Veni","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici","Vidi","Vici"};
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
+        List<Place> listItems = new ArrayList<Place>();
+        for(int i = 0; i < 50; i++){
+            listItems.add(new Place( "street " + i, "zip " + i, "city " + i ));
+        }
+        ArrayAdapter adapter = new PlaceAdapter(this, listItems);
         itemsView.setAdapter(adapter);
     }
 
