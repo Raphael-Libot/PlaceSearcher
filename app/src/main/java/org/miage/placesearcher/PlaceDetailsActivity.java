@@ -1,11 +1,15 @@
 package org.miage.placesearcher;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,8 +21,13 @@ import butterknife.OnClick;
 
 public class PlaceDetailsActivity extends AppCompatActivity {
 
+    private static final int SELECT_PHOTO = 1234;
+
     @BindView(R.id.street_name)
     TextView streetName;
+
+    @BindView(R.id.image)
+    ImageView image;
 
     private String streetNameToSend;
 
@@ -47,5 +56,26 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         Uri uri = Uri.parse(url);
         Intent searchIntent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(searchIntent);
+    }
+
+    @OnClick(R.id.search_image)
+    public void onSearchImageClick() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (SELECT_PHOTO == requestCode) {
+            try {
+                Uri selectedImage = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                image.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
