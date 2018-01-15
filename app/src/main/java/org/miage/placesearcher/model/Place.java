@@ -1,4 +1,4 @@
-package org.miage.placesearcher;
+package org.miage.placesearcher.model;
 
 /**
  * Created by rapha on 08/01/2018.

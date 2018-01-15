@@ -1,5 +1,7 @@
 package org.miage.placesearcher;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
+
+import org.miage.placesearcher.model.Place;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,13 +20,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.items)
     ListView itemsView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         itemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /* Code pour audio au click
                 try {
                     AssetFileDescriptor afd = getAssets().openFd("cris.mp3");
                     MediaPlayer player = new MediaPlayer();
@@ -56,10 +58,18 @@ public class MainActivity extends AppCompatActivity {
                     player.start();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
+                Place item = (Place) parent.getItemAtPosition(position);
+                String streetName = item.getStreet();
+                Intent placeDetailsIntent = new Intent(getContext(), PlaceDetailsActivity.class);
+                placeDetailsIntent.putExtra("streetName", streetName);
+                startActivity(placeDetailsIntent);
             }
         });
     }
 
+    private Context getContext() {
+        return this;
+    }
 
 }

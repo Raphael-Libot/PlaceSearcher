@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.miage.placesearcher.model.Place;
+
 import java.util.List;
 
 import butterknife.BindView;
