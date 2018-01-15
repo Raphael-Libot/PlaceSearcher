@@ -45,36 +45,35 @@ public class PlaceSearchService {
             @Override
             protected void onPostExecute(Response response) {
                 super.onPostExecute(response);
-                List<Place> places = new ArrayList<>();
-                try {
-                    String responseBody = response.body().string();
-                    Log.i(TAG, responseBody);
-                    JSONObject bodyObject = new JSONObject(responseBody);
-                    JSONArray features = bodyObject.getJSONArray("features");
-                    for (int i = 0; i < features.length(); i++) {
-                        Place place = new Place();
-                        JSONObject feature = (JSONObject) features.get(i);
-                        JSONObject properties = feature.getJSONObject("properties");
-                        String label = properties.getString("label");
-                        String cityCode = properties.getString("citycode");
-                        String city = properties.getString("city");
-                        place.setStreet(label);
-                        place.setZipCode(cityCode);
-                        place.setCity(city);
-                        place.setLatitude(0);
-                        place.setLongitude(0);
-                        place.setImage(R.drawable.home);
-                        places.add(place);
-                        Log.i(TAG, label);
-                    }
-                    EventBusManager.BUS.post(new SearchResultEvent(places));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                List<Place> places = getPlaces(response);
+                EventBusManager.BUS.post(new SearchResultEvent(places));
             }
         };
         asyncTask.execute(url);
+    }
+
+    private List<Place> getPlaces(Response response) {
+        List<Place> places = new ArrayList<>();
+        try {
+            String responseBody = response.body().string();
+            Log.i(TAG, responseBody);
+            JSONObject bodyObject = new JSONObject(responseBody);
+            JSONArray features = bodyObject.getJSONArray("features");
+            for (int i = 0; i < features.length(); i++) {
+                JSONObject feature = (JSONObject) features.get(i);
+                JSONObject properties = feature.getJSONObject("properties");
+                String street = properties.getString("label");
+                String zipCode = properties.getString("citycode");
+                String city = properties.getString("city");
+                Place place = new Place(street, zipCode, city, R.drawable.home);
+                places.add(place);
+                Log.i(TAG, street);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return places;
     }
 }
