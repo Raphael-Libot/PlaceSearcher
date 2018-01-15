@@ -13,6 +13,8 @@ public class Place {
     private String city;
     private int image;
 
+    public Place(){};
+
     public Place(double latitude, double longitude, String street, String zipCode, String city) {
         this.latitude = latitude;
         this.longitude = longitude;

@@ -9,8 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.squareup.otto.Subscribe;
+
 import org.miage.placesearcher.model.Place;
+import org.miage.placesearcher.service.EventBusManager;
 import org.miage.placesearcher.service.PlaceSearchService;
+import org.miage.placesearcher.service.SearchResultEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     ListView itemsView;
 
     private PlaceSearchService service;
+
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 listItems.add(new Place("street " + i, "zip " + i, "city " + i, R.drawable.home));
             }
         }
-        ArrayAdapter adapter = new PlaceAdapter(this, listItems);
+        adapter = new PlaceAdapter(this, listItems);
         itemsView.setAdapter(adapter);
 
         itemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /* Code pour audio au click
-                try {
-                    AssetFileDescriptor afd = getAssets().openFd("cris.mp3");
-                    MediaPlayer player = new MediaPlayer();
-                    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    player.prepare();
-                    player.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
                 Place item = (Place) parent.getItemAtPosition(position);
                 String streetName = item.getStreet();
                 Intent placeDetailsIntent = new Intent(getContext(), PlaceDetailsActivity.class);
@@ -78,5 +74,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         service.searchPlaces(GET_URL);
+        EventBusManager.BUS.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        EventBusManager.BUS.unregister(this);
+        super.onPause();
+    }
+
+    @Subscribe
+    public void searchResult(SearchResultEvent searchResultEvent) {
+        adapter.clear();
+        adapter.addAll(searchResultEvent.getPlaces());
     }
 }
