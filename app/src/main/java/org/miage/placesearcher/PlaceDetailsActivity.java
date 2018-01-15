@@ -1,11 +1,14 @@
 package org.miage.placesearcher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Simon on 15/01/2018.
@@ -16,13 +19,24 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     @BindView(R.id.street_name)
     TextView streetName;
 
+    private String streetNameToSend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_place_details);
         ButterKnife.bind(this);
+        streetNameToSend = getIntent().getStringExtra("streetName");
+        streetName.setText(streetNameToSend);
+    }
 
-        String intentData = getIntent().getStringExtra("streetName");
-        streetName.setText(intentData);
+    @OnClick(R.id.share_button)
+    public void onShareClick() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        String toSend = "Hey koukou, bienvenue dans la rue : " + streetNameToSend;
+        sendIntent.putExtra(Intent.EXTRA_TEXT, toSend);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
