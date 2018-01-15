@@ -1,6 +1,7 @@
 package org.miage.placesearcher;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -38,5 +39,13 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         sendIntent.putExtra(Intent.EXTRA_TEXT, toSend);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+
+    @OnClick(R.id.search_button)
+    public void onSearchClick() {
+        String url = "https://www.google.fr/search?q=" + streetNameToSend;
+        Uri uri = Uri.parse(url);
+        Intent searchIntent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(searchIntent);
     }
 }

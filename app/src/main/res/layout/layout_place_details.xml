@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/share_button"
-        android:text="Share !"
+        android:text="Share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -27,5 +27,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/street_name"/>
+
+    <Button
+        android:id="@+id/search_button"
+        android:text="Search on google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/share_button"/>
 
 </android.support.constraint.ConstraintLayout>
